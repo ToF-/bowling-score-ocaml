@@ -1,2 +1,2 @@
 let () = 
-    Printf.printf "%d\n" (Bowling.score 0)
+    Printf.printf "%d\n" (Bowling.score [])
