@@ -1,3 +1,4 @@
 (test
  (name test_bowling)
- (libraries ounit2 bowling))
+ (libraries ounit2 qcheck bowling))
+

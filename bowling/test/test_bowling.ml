@@ -1,6 +1,7 @@
-open OUnit2
+open OUnit
+open QCheck
 
-let suite =
+let unit_tests =
     "bowling tests" >::: [
         "initially zero" >:: 
             (fun _ -> assert_equal 0 (Bowling.score [])) ;
@@ -15,6 +16,22 @@ let suite =
         "after 10 frames, special throws do not add bonus" >::
             (fun _ -> assert_equal ~printer:string_of_int 300 (Bowling.score [10; 10; 10; 10; 10; 10; 10; 10; 10; 10; 10; 10])) ;
     ]
-let () =
-  run_test_tt_main suite
+
+let passing =
+  QCheck.Test.make ~count:1000
+    ~name:"list_rev_is_involutive"
+    QCheck.(list nat_small)
+    (fun l -> List.rev (List.rev l) = l);;
+
+let failing =
+  QCheck.Test.make ~count:10
+    ~name:"fail_sort_id"
+    QCheck.(list nat_small)
+    (fun l -> List.sort compare l = List.sort compare l);;
+
+let _ =
+    List.map run_test_tt_main [
+            unit_tests ;
+           ("tests" >::: List.map QCheck_ounit.to_ounit_test [passing; failing]) ;
+    ]
 
