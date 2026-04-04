@@ -1,4 +1,4 @@
-open OUnit
+open OUnit2
 open QCheck
 
 let unit_tests =
@@ -32,6 +32,6 @@ let failing =
 let _ =
     List.map run_test_tt_main [
             unit_tests ;
-           ("tests" >::: List.map QCheck_ounit.to_ounit_test [passing; failing]) ;
+           ("tests" >::: List.map QCheck_ounit.to_ounit2_test [passing; failing]) ;
     ]
 
